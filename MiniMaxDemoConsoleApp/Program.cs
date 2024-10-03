@@ -19,12 +19,12 @@ static void ControlLoop(Board board)
     Point nextMove;
     WinnerStatus state;
 
-    DisplayClass display = new DisplayClass();
-    MiniMax.AddObserver(display);
+    Utilities utilities = new Utilities();
+    MiniMax.AddObserver(utilities);
 
 
 
-    display.PrintBoard(board);
+    utilities.PrintBoard(board);
 
     while (true)
     {
@@ -33,17 +33,17 @@ static void ControlLoop(Board board)
         {
             while (row < 0 || row >= board.Size)
             {
-                row = display.TakeIntegerInput("Enter Row");
+                row = utilities.TakeIntegerInput("Enter Row");
             }
             while (col < 0 || col >= board.Size)
             {
-                col = display.TakeIntegerInput("Enter Col");
+                col = utilities.TakeIntegerInput("Enter Col");
             }
 
             nextMove = new Point(row, col);
 
             board.MakeMove(nextMove, turn);
-            display.PrintBoard(board);
+            utilities.PrintBoard(board);
 
             row = -1;
             col = -1;
@@ -51,9 +51,15 @@ static void ControlLoop(Board board)
         }
         else
         {
+            var startTime = DateTime.Now.TimeOfDay;
             nextMove = board.CalculateComputerMove();
+            var endTime = DateTime.Now.TimeOfDay;
+            var timeElapsed = endTime - startTime;
+            var timeString = timeElapsed.ToString();
             board.MakeMove(nextMove, turn);
-            display.PrintBoard(board);
+            utilities.PrintBoard(board);
+            utilities.DisplayMessage($"{timeString} has elapsed");
+            utilities.NewLine();
             turn = CellState.Player;
         }
 
@@ -65,48 +71,51 @@ static void ControlLoop(Board board)
         }
     }
 
-    display.DisplayMessage($"{state} has won");
+    utilities.DisplayMessage($"{state} has won");
 }
 
-public class DisplayClass : Observer
+public class Utilities : Observer
 {
     public void PrintBoard(Board board)
     {
-        DisplayTopLines(board);
-        NewLine();
+        string printString = "";
+
+        printString += GetTopLines(board);
+        printString += "\n";
 
         for (int row = 0; row < board.Size; row++)
         {
             for (int col = 0; col < board.Size; col++)
             {
-                DisplayCell(board, new Point(row, col));
+                printString += GetCellDisplay(board, new Point(row, col));
             }
 
-            DisplayMessage("|");
-            NewLine();
-            DisplayTopLines(board);
-            NewLine();
+            printString += "|\n";
+            printString += GetTopLines(board);
+            printString += "\n";
         }
+
+        DisplayMessage(printString);
     }
 
-    public void DisplayCell(Board board, Point point)
+    public string GetCellDisplay(Board board, Point point)
     {
-        DisplayMessage($"| {board.GetCharacter(point)} ");
+        return $"| {board.GetCharacter(point)} ";
 
     }
 
-    public void DisplayTopLines(Board board)
+    public string GetTopLines(Board board)
     {
-        string display = "";
+        string ret = "";
 
         for (int col = 0; col < board.Size; col++)
         {
-            display += "+---";
+            ret += "+---";
         }
 
-        display += "+";
+        ret += "+";
 
-        DisplayMessage(display);
+        return ret;
     }
 
 
@@ -176,8 +185,10 @@ public class DisplayClass : Observer
 
     public void Observe(Board board)
     {
-        PrintBoard(board);
         ClearScreen();
+        PrintBoard(board);
+        Thread.Sleep(1);
+
     }
 
     private void ClearScreen()
