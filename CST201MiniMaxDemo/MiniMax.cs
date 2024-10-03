@@ -57,9 +57,10 @@ namespace CST201MiniMaxDemo
             foreach (var move in moves)
             {
                 board.MakeMove(move, turn);
-                int score = GetBestMove(board, FlipTurn(turn)).Item2;
                 OutputToObservers(board);
+                int score = GetBestMove(board, FlipTurn(turn)).Item2;
                 board.UndoMove(move);
+                OutputToObservers(board);
 
                 if (turn == CellState.Computer)
                 {
@@ -68,6 +69,10 @@ namespace CST201MiniMaxDemo
                         bestScore = score;
                         bestMove = move;
                     }
+                    if (bestScore == Max)
+                    {
+                        return (bestMove, bestScore);
+                    }
                 }
                 else
                 {
@@ -75,6 +80,10 @@ namespace CST201MiniMaxDemo
                     {
                         bestScore = score;
                         bestMove = move;
+                    }
+                    if (bestScore == Min)
+                    {
+                        return (bestMove, bestScore);
                     }
                 }
             }
