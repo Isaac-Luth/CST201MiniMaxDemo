@@ -75,81 +75,10 @@ namespace CST201MiniMaxDemo
 
         public WinnerStatus GetWinnerStatus()
         {
-            Point point;
-
-            for (int row =  0; row < Size; row++)
-            {
-                for (int col = 0; col < Size; col++)
-                {
-                    // There is a center cell of every victory
-                    // this algorithm will return on the center cell
-                    point = new Point(row, col);
-                    if (GetWinnerStatusCell(point) != WinnerStatus.InProgress)
-                    {
-                        return CellStateToWinnerStatus(GetCell(point));
-                    }
-                }
-            }
-
-            if (MovesMade == MaxMoves)
-            {
-                return WinnerStatus.Tie;
-            }
-
             return WinnerStatus.InProgress;
         }
 
-        private WinnerStatus GetWinnerStatusCell(Point point)
-        {
-            CellState cellState = GetCell(point);
 
-            if (cellState == CellState.Empty)
-            {
-                return WinnerStatus.InProgress;
-            }
-
-            // Check Diagonals
-            if (point.Row - 1 >= 0 &&
-                point.Row + 1 < Size &&
-                point.Col - 1 >= 0 &&
-                point.Col + 1 < Size)
-            {
-                if (cellState == GetCell(new Point(point, -1, -1)) &&
-                    cellState == GetCell(new Point(point, 1, 1)))
-                {
-                    return CellStateToWinnerStatus(GetCell(point));
-                }
-                if (cellState == GetCell(new Point(point, -1, 1)) &&
-                    cellState == GetCell(new Point(point, 1, -1)))
-                {
-                    return CellStateToWinnerStatus(GetCell(point));
-                }
-            }
-
-            // Check Row
-            if (point.Row - 1 >= 0 &&
-                point.Row + 1 < Size)
-            {
-                if (cellState == GetCell(new Point(point, -1, 0)) &&
-                    cellState == GetCell(new Point(point, 1, 0)))
-                {
-                    return CellStateToWinnerStatus(GetCell(point));
-                }
-            }
-
-            // Check Column
-            if (point.Col - 1 >= 0 &&
-                point.Col + 1 < Size)
-            {
-                if (cellState == GetCell(new Point(point, 0, -1)) &&
-                    cellState == GetCell(new Point(point, 0, 1)))
-                {
-                    return CellStateToWinnerStatus(GetCell(point));
-                }
-            }
-
-            return WinnerStatus.InProgress;
-        }
 
         private WinnerStatus CellStateToWinnerStatus(CellState state)
         {
