@@ -12,6 +12,7 @@ ControlLoop(board);
 
 //---------------------------
 
+// This is the main control loop
 static void ControlLoop(Board board)
 {
     int row = -1, col = -1;
@@ -76,6 +77,11 @@ static void ControlLoop(Board board)
 
 public class Utilities : Observer
 {
+
+    /// <summary>
+    /// Prints the board
+    /// </summary>
+    /// <param name="board"></param>
     public void PrintBoard(Board board)
     {
         string printString = "";
@@ -98,12 +104,23 @@ public class Utilities : Observer
         DisplayMessage(printString);
     }
 
+    /// <summary>
+    /// returns the Cell character display
+    /// </summary>
+    /// <param name="board"></param>
+    /// <param name="point"></param>
+    /// <returns>string</returns>
     public string GetCellDisplay(Board board, Point point)
     {
         return $"| {board.GetCharacter(point)} ";
 
     }
 
+    /// <summary>
+    /// Returns the top lines
+    /// </summary>
+    /// <param name="board"></param>
+    /// <returns>string</returns>
     public string GetTopLines(Board board)
     {
         string ret = "";
@@ -119,16 +136,26 @@ public class Utilities : Observer
     }
 
 
+    /// <summary>
+    /// Displays message
+    /// </summary>
+    /// <param name="message"></param>
     public void DisplayMessage(string message)
     {
         Console.Write(message);
     }
 
+    /// <summary>
+    /// Displays a newline
+    /// </summary>
     public void NewLine()
     {
         Console.WriteLine();
     }
 
+    /// <summary>
+    /// Displays a unified input string
+    /// </summary>
     public void DisplayInputString()
     {
         Console.Write(">>> ");
@@ -183,6 +210,11 @@ public class Utilities : Observer
         return output;
     }
 
+
+    /// <summary>
+    /// This is the inherited method from Observer allowing this to observe minimax
+    /// </summary>
+    /// <param name="board"></param>
     public void Observe(Board board)
     {
         ClearScreen();
@@ -191,6 +223,9 @@ public class Utilities : Observer
 
     }
 
+    /// <summary>
+    /// Clears the console
+    /// </summary>
     private void ClearScreen()
     {
         Console.Clear();

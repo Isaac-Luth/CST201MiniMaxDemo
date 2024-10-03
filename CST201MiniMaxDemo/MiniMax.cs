@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static CST201MiniMaxDemo.Board;
-using Point = CST201MiniMaxDemo.Board.Point;
+﻿using Point = CST201MiniMaxDemo.Board.Point;
 using CellState = CST201MiniMaxDemo.Board.CellState;
 using WinnerStatus = CST201MiniMaxDemo.Board.WinnerStatus;
-using System.Runtime.InteropServices;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace CST201MiniMaxDemo
 {
