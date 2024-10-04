@@ -187,7 +187,7 @@ public class Utilities : Observer
     {
         ClearScreen();
         PrintBoard(board);
-        Thread.Sleep(1);
+        Thread.Sleep(1000);
 
     }
 
